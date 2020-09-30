@@ -26,15 +26,18 @@ public class OverlayRenderer {
         if (!Config.CLIENT.activateTimberMod.get()) {
             return;
         }
+        if (!timber.Main.isEnabled)
+        {
+            return;
+        }
         if (!Config.CLIENT.visualIndicator.get()) {
             return;
         }
         RenderSystem.pushMatrix();
-
+        
         RenderSystem.disableLighting();
 
         FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
-
 
         int x = 302;
         int y = 150;

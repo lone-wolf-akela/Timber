@@ -15,31 +15,31 @@ import timber.config.Config;
 import java.util.ArrayList;
 
 public class Timber {
-
-
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         World world = event.getPlayer().getEntityWorld();
-        if (!world.isRemote) {
-            if (!Config.CLIENT.activateTimberMod.get()) {
-                return;
+        if (world.isRemote) {
+            return;
+        }
+        if (!Config.CLIENT.activateTimberMod.get()) {
+            return;
+        }
+        if (!timber.Main.isEnabled)
+        {
+            return;
+        }
+        if (Config.CLIENT.reverseControl.get() == !event.getPlayer().isCrouching()) {
+            return;
+        }
+        if (event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()).getItem() instanceof AxeItem
+                && world.getBlockState(event.getPos()).getBlock() instanceof LogBlock) {
+            boolean isCreative = event.getPlayer().isCreative();
+            if(!isCreative)
+            {
+                event.getPlayer().addExhaustion(0.025F);
             }
-            if (Config.CLIENT.reverseControl.get()) {
-                if (!event.getPlayer().isCrouching()) {
-                    return;
-                }
-            } else if (event.getPlayer().isCrouching()) {
-                return;
-            }
-            if (event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()).getItem() instanceof AxeItem) {
-                if (world.getBlockState(event.getPos()).getBlock() instanceof LogBlock) {
-                    if (!event.getPlayer().isCreative()) {
-                        event.getPlayer().addExhaustion(0.025F);
-                        chopLogs(world, event.getPos(), world.getBlockState(event.getPos()).getBlock(), new ArrayList<BlockPos>(), true, event.getPlayer());
-                    } else {
-                        chopLogs(world, event.getPos(), world.getBlockState(event.getPos()).getBlock(), new ArrayList<BlockPos>(), Config.SERVER.dropsInCreativeMode.get(), event.getPlayer());
-                    }
-                }
-            }
+            boolean drop = !isCreative || Config.SERVER.dropsInCreativeMode.get();
+            chopLogs(world, event.getPos(), world.getBlockState(event.getPos()).getBlock(),
+                        new ArrayList<BlockPos>(), drop, event.getPlayer());
         }
     }
 

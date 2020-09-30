@@ -67,6 +67,7 @@ public class Config {
     public static class Client {
         public final ForgeConfigSpec.BooleanValue activateTimberMod;
         public final ForgeConfigSpec.BooleanValue visualIndicator;
+        public final ForgeConfigSpec.BooleanValue enableWhilePressed;
         public final ForgeConfigSpec.BooleanValue reverseControl;
 
         Client(ForgeConfigSpec.Builder builder) {
@@ -76,6 +77,8 @@ public class Config {
                     .comment(" Timber Mod will disable itself if this value is set to false. Default: true.").define("activate_timber_mod", true);
             visualIndicator = builder
                     .comment(" Shows a text at your crosshair to inform you that you have Timber activated. Default: true.").define("visual_indicator", true);
+            enableWhilePressed = builder
+                    .comment(" Only enable Timber while the assined key is pressed. Default: true.").define("enbale_while_pressed", true);
             reverseControl = builder
                     .comment(" Reverses the control of sneaking, if false then sneaking and chopping will disable the Timber Mod, if true then it's in reverse. Default: false.").define("reverse_control", false);
 

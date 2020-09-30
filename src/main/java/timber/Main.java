@@ -23,6 +23,8 @@ public class Main {
 
     public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
+    public static boolean isEnabled;
+
     public Main() {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.clientSpec);
@@ -32,6 +34,12 @@ public class Main {
 
         Config.loadConfig(Config.clientSpec, FMLPaths.CONFIGDIR.get().resolve("timber-client.toml"));
         Config.loadConfig(Config.serverSpec, FMLPaths.CONFIGDIR.get().resolve("timber.toml"));
+
+        if(Config.CLIENT.enableWhilePressed.get()){
+            isEnabled = false;
+        } else {
+            isEnabled = Config.CLIENT.activateTimberMod.get();
+        }
     }
 
     @SubscribeEvent
