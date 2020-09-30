@@ -38,12 +38,12 @@ public class Timber {
                 event.getPlayer().addExhaustion(0.025F);
             }
             boolean drop = !isCreative || Config.SERVER.dropsInCreativeMode.get();
-            chopLogs(world, event.getPos(), world.getBlockState(event.getPos()).getBlock(),
-                        new ArrayList<BlockPos>(), drop, event.getPlayer());
+            chopLogs(world, event.getPos(), world.getBlockState(event.getPos()).getBlock(), drop, event.getPlayer());
         }
     }
 
-    private static void chopLogs(World world, BlockPos pos, Block block, ArrayList<BlockPos> list, boolean drop, PlayerEntity player) {
+    private static void chopLogs(World world, BlockPos pos, Block block, boolean drop, PlayerEntity player) {
+        ArrayList<BlockPos> list = new ArrayList<>();
         if (world.getBlockState(pos.north()).getBlock() == block) {
             list.add(pos.north());
         }
@@ -123,7 +123,6 @@ public class Timber {
             list.add(pos.up().west());
         }
         if (list.size() <= 0 || list == null) {
-            list = null;
             return;
         }
         for (int i = 0; i < list.size(); i++) {
@@ -132,7 +131,7 @@ public class Timber {
             if (Config.SERVER.damageAxe.get() && !player.isCreative()) {
                 player.getHeldItemMainhand().attemptDamageItem(1, player.getRNG(), null);
             }
-            chopLogs(world, list.get(i), block, new ArrayList<BlockPos>(), drop, player);
+            chopLogs(world, list.get(i), block, drop, player);
         }
     }
 
