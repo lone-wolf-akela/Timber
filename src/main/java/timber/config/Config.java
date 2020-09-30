@@ -78,7 +78,7 @@ public class Config {
             visualIndicator = builder
                     .comment(" Shows a text at your crosshair to inform you that you have Timber activated. Default: true.").define("visual_indicator", true);
             enableWhilePressed = builder
-                    .comment(" Only enable Timber while the assined key is pressed. Default: true.").define("enbale_while_pressed", true);
+                    .comment(" Only enable Timber while the assigned key is pressed. Default: true.").define("enbale_while_pressed", true);
             reverseControl = builder
                     .comment(" Reverses the control of sneaking, if false then sneaking and chopping will disable the Timber Mod, if true then it's in reverse. Default: false.").define("reverse_control", false);
 
