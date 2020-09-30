@@ -44,94 +44,28 @@ public class Timber {
 
     private static void chopLogs(World world, BlockPos pos, Block block, boolean drop, PlayerEntity player) {
         ArrayList<BlockPos> list = new ArrayList<>();
-        if (world.getBlockState(pos.north()).getBlock() == block) {
-            list.add(pos.north());
-        }
-        if (world.getBlockState(pos.north().east()).getBlock() == block) {
-            list.add(pos.north().east());
-        }
-        if (world.getBlockState(pos.north().west()).getBlock() == block) {
-            list.add(pos.north().west());
-        }
-        if (world.getBlockState(pos.north().east().down()).getBlock() == block) {
-            list.add(pos.north().east().down());
-        }
-        if (world.getBlockState(pos.north().west().down()).getBlock() == block) {
-            list.add(pos.north().west().down());
-        }
-        if (world.getBlockState(pos.south()).getBlock() == block) {
-            list.add(pos.south());
-        }
-        if (world.getBlockState(pos.south().east()).getBlock() == block) {
-            list.add(pos.south().east());
-        }
-        if (world.getBlockState(pos.south().west()).getBlock() == block) {
-            list.add(pos.south().west());
-        }
-        if (world.getBlockState(pos.south().east().down()).getBlock() == block) {
-            list.add(pos.south().east().down());
-        }
-        if (world.getBlockState(pos.south().west().down()).getBlock() == block) {
-            list.add(pos.south().west().down());
-        }
-        if (world.getBlockState(pos.east()).getBlock() == block) {
-            list.add(pos.east());
-        }
-        if (world.getBlockState(pos.west()).getBlock() == block) {
-            list.add(pos.west());
-        }
-        if (world.getBlockState(pos.down()).getBlock() == block) {
-            list.add(pos.down());
-        }
-        if (world.getBlockState(pos.down().north()).getBlock() == block) {
-            list.add(pos.down().north());
-        }
-        if (world.getBlockState(pos.down().south()).getBlock() == block) {
-            list.add(pos.down().south());
-        }
-        if (world.getBlockState(pos.down().east()).getBlock() == block) {
-            list.add(pos.down().east());
-        }
-        if (world.getBlockState(pos.down().west()).getBlock() == block) {
-            list.add(pos.down().west());
-        }
-        if (world.getBlockState(pos.north().east().up()).getBlock() == block) {
-            list.add(pos.north().east().up());
-        }
-        if (world.getBlockState(pos.north().west().up()).getBlock() == block) {
-            list.add(pos.north().west().up());
-        }
-        if (world.getBlockState(pos.south().east().up()).getBlock() == block) {
-            list.add(pos.south().east().up());
-        }
-        if (world.getBlockState(pos.south().west().up()).getBlock() == block) {
-            list.add(pos.south().west().up());
-        }
-        if (world.getBlockState(pos.up()).getBlock() == block) {
-            list.add(pos.up());
-        }
-        if (world.getBlockState(pos.up().north()).getBlock() == block) {
-            list.add(pos.up().north());
-        }
-        if (world.getBlockState(pos.up().south()).getBlock() == block) {
-            list.add(pos.up().south());
-        }
-        if (world.getBlockState(pos.up().east()).getBlock() == block) {
-            list.add(pos.up().east());
-        }
-        if (world.getBlockState(pos.up().west()).getBlock() == block) {
-            list.add(pos.up().west());
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                for (int z = -1; z <= 1; z++) {
+                    if (x != 0 || y != 0 || z != 0) {
+                        BlockPos target = pos.add(x, y, z);
+                        if (world.getBlockState(target).getBlock() == block) {
+                            list.add(target);
+                        }
+                    }
+                }
+            }
         }
         if (list.size() <= 0 || list == null) {
             return;
         }
         for (int i = 0; i < list.size(); i++) {
-            BlockPos pos1 = list.get(i);
-            destroyBlock(world, pos1, pos, drop);
+            BlockPos target = list.get(i);
+            destroyBlock(world, target, pos, drop);
             if (Config.SERVER.damageAxe.get() && !player.isCreative()) {
                 player.getHeldItemMainhand().attemptDamageItem(1, player.getRNG(), null);
             }
-            chopLogs(world, list.get(i), block, drop, player);
+            chopLogs(world, target, block, drop, player);
         }
     }
 
