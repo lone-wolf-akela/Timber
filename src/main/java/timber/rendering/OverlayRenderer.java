@@ -1,6 +1,7 @@
 package timber.rendering;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.AxeItem;
@@ -36,12 +37,12 @@ public class OverlayRenderer {
         RenderSystem.pushMatrix();
         
         RenderSystem.disableLighting();
-
+        MatrixStack mStack = event.getMatrixStack();
         FontRenderer fontRenderer = Minecraft.getInstance().fontRenderer;
 
         int x = 302;
         int y = 150;
-        fontRenderer.drawString("Timber!", x, y, 0xffffffff);
+        fontRenderer.drawString(mStack, "Timber!", x, y, 0xffffffff);
 
         RenderSystem.popMatrix();
 

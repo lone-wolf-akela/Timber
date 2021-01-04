@@ -3,18 +3,25 @@ package timber.event;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.LogBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+
 import timber.config.Config;
 
 import java.util.ArrayList;
 
 public class Timber {
+    private static boolean isLog(Block block){
+        ResourceLocation id = new ResourceLocation("minecraft", "logs");
+        boolean isInGroup = BlockTags.getCollection().get(id).contains(block);
+        return isInGroup;
+    }
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         World world = event.getPlayer().getEntityWorld();
         if (world.isRemote) {
@@ -31,7 +38,7 @@ public class Timber {
             return;
         }
         if (event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()).getItem() instanceof AxeItem
-                && world.getBlockState(event.getPos()).getBlock() instanceof LogBlock) {
+                && isLog(world.getBlockState(event.getPos()).getBlock())) {
             boolean isCreative = event.getPlayer().isCreative();
             if(!isCreative)
             {

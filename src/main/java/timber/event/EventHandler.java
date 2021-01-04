@@ -2,6 +2,7 @@ package timber.event;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.InputEvent;
@@ -32,14 +33,15 @@ public class EventHandler {
     @SubscribeEvent(priority= EventPriority.NORMAL, receiveCanceled = true)
     public static void onKeyInput(InputEvent.KeyInputEvent e) {
         if (!Config.CLIENT.enableWhilePressed.get() && ClientProxy.toggleTimber.isPressed()) {
+            PlayerEntity player = Minecraft.getInstance().player;
             if (Config.CLIENT.activateTimberMod.get()) {
                 timber.Main.isEnabled = false;
                 Config.CLIENT.activateTimberMod.set(false);
-                Minecraft.getInstance().player.sendMessage(new StringTextComponent("Disabled Timber Mod"));
+                player.sendMessage(new StringTextComponent("Disabled Timber Mod"), player.getUniqueID());
             } else {
                 timber.Main.isEnabled = true;
                 Config.CLIENT.activateTimberMod.set(true);
-                Minecraft.getInstance().player.sendMessage(new StringTextComponent("Activated Timber Mod"));
+                player.sendMessage(new StringTextComponent("Activated Timber Mod"), player.getUniqueID());
             }
         }
     }

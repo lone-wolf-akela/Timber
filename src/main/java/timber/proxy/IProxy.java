@@ -11,7 +11,4 @@ public interface IProxy {
 	PlayerEntity getClientPlayer();
 
 	World getClientWorld();
-
-	World getServerWorld(int dim);
-
 }

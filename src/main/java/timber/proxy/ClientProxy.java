@@ -39,12 +39,4 @@ public class ClientProxy implements IProxy {
 	public World getClientWorld() {
 		return Minecraft.getInstance().world;
 	}
-
-	@Override
-	public World getServerWorld(int dim) {
-        throw new IllegalStateException("Can't call this client-side!");
-	}
-
-
-
 }
